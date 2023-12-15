@@ -1,13 +1,10 @@
 import "../styles/globals.css";
-import { Navbar } from "../components";
+import Layout from "../components/Layout";
 
-export default function App() {
+export default function App({Component, pageProps}) {
   return (
-    <>
-      <div>
-        <h1 className="text-[10vh] text-center my-[4vh]">Hello World</h1>
-      </div>
-      <Navbar />
-    </>
+    <Layout>
+      <Component {...pageProps}/>
+    </Layout>
   );
 }

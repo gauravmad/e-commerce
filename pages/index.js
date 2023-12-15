@@ -1,13 +1,36 @@
 import React from 'react';
+import { Navbar, Product, Footer, HeroBanner,FooterBanner } from '../components';
+import { client } from '../lib/client';
 
-export default function Home() {
+export default function Home({products, bannerData}) {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div>
-        <h1 className="text-[10vh] text-center my-[4vh]">Helloe World</h1>
+    <div>
+      <HeroBanner heroBanner={bannerData.length && bannerData[0]}/>
+      {/* {console.log(bannerData)} */}
+      {/* {console.log(products)} */}
+      
+      <div className="products-heading">
+        <h2>Best Seller Products</h2>
+        <p>Speakers there are many variations passages</p>
       </div>
-    </main>
+
+      <div className="products-container">
+        {products?.map((product)=> <Product key={product._id} product={product}/>)}
+      </div>
+
+      <FooterBanner footerBanner={bannerData && bannerData[0]}/>
+    </div>
   )
+};
+
+export const getServerSideProps = async()=>{
+  const query = '*[_type == "product"]';
+  const products = await client.fetch(query);
+
+  const bannerQuery = '*[_type == "banner"]';
+  const bannerData = await client.fetch(bannerQuery);
+
+  return{
+    props:{ products, bannerData }
+  }
 }
