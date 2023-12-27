@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Product, Footer, HeroBanner,FooterBanner } from '../components';
+import { Navbar, Product, Footer, HeroBanner, FooterBanner } from '../components';
 import { client } from '../lib/client';
 
 export default function Home({products, bannerData}) {
@@ -15,7 +15,9 @@ export default function Home({products, bannerData}) {
       </div>
 
       <div className="products-container">
-        {products?.map((product)=> <Product key={product._id} product={product}/>)}
+        {products?.map((product)=> 
+          <Product key={product._id} product={product}/>
+        )}
       </div>
 
       <FooterBanner footerBanner={bannerData && bannerData[0]}/>
@@ -30,7 +32,10 @@ export const getServerSideProps = async()=>{
   const bannerQuery = '*[_type == "banner"]';
   const bannerData = await client.fetch(bannerQuery);
 
-  return{
+  const contactformQuery = '*[_type == "contactus"]';
+  const contactformData = await client.fetch(contactformQuery);
+
+  return{ 
     props:{ products, bannerData }
   }
 }
